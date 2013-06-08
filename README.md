@@ -1,4 +1,4 @@
 learnC
 ======
 
-Dat C mang
+http://c.learncodethehardway.org
