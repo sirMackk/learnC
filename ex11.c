@@ -1,20 +1,20 @@
 #include <stdio.h>
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char *argv[]) 
+{
     int i = 0;
-    while(i < argc) {
-        printf("arg %d: %s\n", i, argv[i]);
-        i++;
-    }
 
-    char *states[] = {"California", "Oregon", "Texas", "New York"};
+    if(argc == 1) {
+        printf("You only gave one argument");
+    } else if(argc > 1 && argc < 4) {
+        printf("Here are your arguments:\n");
 
-    int k = sizeof(states) / sizeof(states[0]);
-    i = 0;
-    while(i < k) {
-        printf("states %d: %s\n", i, states[i]);
-        i++;
+        for(i = 1; i < argc; i++) {
+            printf("%s ", argv[i]);
+        }
+        printf("\n");
+    } else {
+        printf("Yo have too many arguments, man");
     }
 
     return 0;
