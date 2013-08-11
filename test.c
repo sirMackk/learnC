@@ -1,51 +1,73 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
-struct Gora {
-  char *name;
-  int height;
-  int id;
+struct Test {
+    int code;
+    char *name;
 };
 
-struct Gora *Create_gora(char *name, int height, int id) {
+struct Test *Create_test(int code, char *name)
+{
+    struct Test *test = malloc(sizeof(struct Test));
+    assert(test != NULL);
 
-  struct Gora *item = malloc(sizeof(struct Gora));
-  assert(item != NULL);
+    test->code = code;
+    test->name = strdup(name);
 
-  item->name = strdup(name);
-  item->height = height;
-  item->id = id;
-
-  return item;
+    return test;
 }
 
-void Gora_destroy(struct Gora *gora) {
-
-  assert(gora != NULL);
-
-  free(gora->name);
-  free(gora);
+void Print_test(struct Test *test)
+{
+    printf("Test code: %d\n", test->code);
+    printf("Test name: %s\n", test->name);
 }
 
-void Print_gora(struct Gora *gora) {
-
-  printf("Name: %s\n", gora->name);
-  printf("Height: %d\n", gora->height);
-  printf("Id: %d\n\n", gora->id);
+void Destroy_test(struct Test *test)
+{
+    assert(test != NULL);
+    free(test->name);
+    free(test);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
+	int number = 11;
+	int numbers[] = {1, 2, 3};
 
-  struct Gora *rysy = Create_gora("Rysy", 2495, 1);
-  struct Gora *marcy = Create_gora("Mt. Marcy", 1800, 2);
+	char letter = 'a';
+	char *word = "bebs";
+	char *words[] = {"bybs", "bebs"};
 
-  Print_gora(rysy);
-  Print_gora(marcy);
+	printf("%d is a number\n", number);	
+	printf("Going to print an array of numbers:\n");
+    int length = sizeof(numbers) / sizeof(int);
+    int i = 0;
+    for(i = 0; i < length; i++) {
+        printf("Number: %d\n", numbers[i]);
+    }
 
-  Gora_destroy(rysy);
-  Gora_destroy(marcy);
+    printf("printing character %c\n", letter);
+    printf("printing a whole word: %s\n", word);
+    length = sizeof(words);
+    printf("length of whole words variable %d\n", length);
+    printf("size of char: %lu\n", sizeof(*words));
+    length = sizeof(words) / sizeof(*words);
+    for(i = 0; i < length; i++) {
+        printf("word: %s\n", words[i]);
+    }
 
-  return 0;
+    printf("Now I'm gonna make a struct:\n");
+
+    struct Test *dude = Create_test(12, "Joe");
+    printf("Dude is at the location: %p\n", dude);
+    printf("AND operator before var?: %p\n", &dude);
+    Print_test(dude);
+    Destroy_test(dude);
+
+
+    return 0;
 }
+
