@@ -1,73 +1,69 @@
 #include <stdio.h>
-#include <string.h>
-#include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct Test {
-    int code;
-    char *name;
+//slightly more complicated file writing example along with structs, pointers and args
+// needs moar pointers
+
+struct Note {
+    int id;
+    char note[256];
 };
 
-struct Test *Create_test(int code, char *name)
+void Write_note(char *name, char *data)
 {
-    struct Test *test = malloc(sizeof(struct Test));
-    assert(test != NULL);
-
-    test->code = code;
-    test->name = strdup(name);
-
-    return test;
+    struct Note *note = malloc(sizeof(struct Note));
+    FILE *file = fopen(name, "w");
+    note->id = 1;
+    strcpy(note->note, data);
+    int rc = fwrite(note, sizeof(struct Note), 1, file);
+    if(rc != 1) printf("Can't write to file");
+    fflush(file);
+    fclose(file);
 }
 
-void Print_test(struct Test *test)
+void Display_note(struct Note *note)
 {
-    printf("Test code: %d\n", test->code);
-    printf("Test name: %s\n", test->name);
+    printf("displaying note\n");
+    printf("Note id: %d\n", note->id);
+    printf("Note: %s\n", note->note);
 }
 
-void Destroy_test(struct Test *test)
+void Read_file(char *name)
 {
-    assert(test != NULL);
-    free(test->name);
-    free(test);
+
+    struct Note *note = malloc(sizeof(struct Note));
+    
+    FILE *file = fopen(name, "r");
+    int rc = fread(note, sizeof(struct Note), 1, file);
+    fclose(file);
+    if(rc != 1) {
+        printf("There was an error in reading the file\n");
+        exit(1);
+    } else if(rc == 1) {
+        Display_note(note);
+    }
 }
 
 int main(int argc, char *argv[])
 {
-	int number = 11;
-	int numbers[] = {1, 2, 3};
+    char *filename = argv[1];
+    char action = argv[2][0];
 
-	char letter = 'a';
-	char *word = "bebs";
-	char *words[] = {"bybs", "bebs"};
+    switch(action) {
+        case 'w':
+        printf("writing...\n");
+            Write_note(filename, argv[3]);
+            break;
+        case 'r':
+            printf("reading file\n");
+            Read_file(filename);
+            break;
 
-	printf("%d is a number\n", number);	
-	printf("Going to print an array of numbers:\n");
-    int length = sizeof(numbers) / sizeof(int);
-    int i = 0;
-    for(i = 0; i < length; i++) {
-        printf("Number: %d\n", numbers[i]);
+        default:
+            printf("Wrong parameters\n");
     }
-
-    printf("printing character %c\n", letter);
-    printf("printing a whole word: %s\n", word);
-    length = sizeof(words);
-    printf("length of whole words variable %d\n", length);
-    printf("size of char: %lu\n", sizeof(*words));
-    length = sizeof(words) / sizeof(*words);
-    for(i = 0; i < length; i++) {
-        printf("word: %s\n", words[i]);
-    }
-
-    printf("Now I'm gonna make a struct:\n");
-
-    struct Test *dude = Create_test(12, "Joe");
-    printf("Dude is at the location: %p\n", dude);
-    printf("AND operator before var?: %p\n", &dude);
-    Print_test(dude);
-    Destroy_test(dude);
-
 
     return 0;
-}
 
+}
