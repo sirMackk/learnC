@@ -2,9 +2,16 @@
 #define STACK_H
 #define SIZE 10
 #define NL printf("\n");
-#define PR(n) printf("%d\n", (n));
+#define PR(n) printf("[%d] ", (n));
 
-void push(int n, int *p);
-int pop(int *p);
-int *makeStack();
+struct Stack {
+    int n[SIZE];
+    int position;
+};
+
+void push(struct Stack *stack, int n);
+int pop(struct Stack *stack);
+struct Stack *makeStack();
+void printStack(struct Stack *stack);
+
 #endif

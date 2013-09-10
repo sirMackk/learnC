@@ -1,36 +1,42 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "stack.h"
 
 int main(int argc, char *argv[])
 {
-    int *stack = makeStack();
-    int i = 0;
+    struct Stack *stack = makeStack();
+    char choice;
+    int item;
 
-    NL
-    printf("%p\n", stack);
-    push(5, stack++);
-    printf("%p\n", stack);
-    push(15, stack++);
-    printf("%p\n", stack);
+    while(1) {
 
-    int j, k;
-    k = pop(--stack);
-    j = pop(--stack);
-    PR(k)
-    PR(j)
-
-    push(12, stack++);
-    push(24, stack++);
-    k = pop(--stack);
-    j = pop(--stack);
-    PR(k)
-    PR(j)
-
-
-    for(i = 0; i < SIZE; i++) {
-        printf("[%d] ", stack[i]);
+        printf("i to insert, x to exit, p to pop, r to print, c to clear\n");
+        scanf("%c", &choice);
+        //error here as scanf reads the newline char
+        if(choice == '\n') continue;
+        switch(choice) {
+            case 'i':
+                printf("Type an integer to insert into the stack: \n");
+                scanf("%d", &item);
+                push(stack, (int)item);
+                printf("Inserted %d!\n", item);
+                break;
+            case 'p':
+                printf("Popping: %d\n", pop(stack));
+                break;
+            case 'x':
+                printf("Bye\n");
+                free(stack);
+                return 0;
+            case 'r':
+                printStack(stack);
+                break;
+            case 'c':
+                free(stack);
+                struct Stack *stack = makeStack();
+            default:
+                printf("Wrong option!\n");
+        }
     }
-    NL
-
     return 0;
 }
