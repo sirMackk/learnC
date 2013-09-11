@@ -14,18 +14,18 @@ enum node_type {
 struct Node {
     enum node_type type;
     struct Node *next;
-
     union {
         int i;
         float f;
-        char[] c;
     } u;
+    char c[];
+
 };
 
-struct Node *createNode(enum node_type type);
-struct Node *createNodeString(int size);
+// struct Node *createNode(enum node_type type);
+struct Node *createNodeString(int size, char item[]);
 int destroyNode(struct Node *node);
 void printNodes(struct Node *first);
-struct Node *searchNode(int id); //hm, search by field?
+// struct Node *searchNode(int id); //hm, search by field?
 
 #endif
