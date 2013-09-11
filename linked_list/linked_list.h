@@ -22,10 +22,11 @@ struct Node {
 
 };
 
-// struct Node *createNode(enum node_type type);
+struct Node *createNode(struct Node *(*allocateMem)(), int size);
 struct Node *createNodeString(int size, char item[]);
 int destroyNode(struct Node *node);
 void printNodes(struct Node *first);
+struct Node *allocateLinkMem(int size);
 // struct Node *searchNode(int id); //hm, search by field?
 
 #endif

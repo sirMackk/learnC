@@ -3,38 +3,9 @@
 #include <string.h>
 #include "linked_list.h"
 
-#define CREATE_NODE(ntype, stype)                                   \
-struct Node *create_ntype##Node(enum node_type type, ntype value)   \
-{                                                                   \
-    struct Node *node;                                              \
-    node->type = type;                                              \
-    node->u->stype##->value;                                        \
-    node->next = NULL;                                              \
-    return node;                                                    \
-}
-
-// struct Node *createNode(enum node_type type)
-// {
-//     struct Node *node = malloc(NODE_TYPE_SIZE + INT_SIZE + NODE_POINTER_SIZE);
-//     struct Node *node;
-
-//     node->type = type;
-//     switch(type) {
-//         case intNode:
-//             node->u->i = 
-//     }
-
-// }
-
-struct Node *createNodeString(int size, char item[])
+struct Node *createNode(struct Node *(*allocateMem)(), int size)
 {
-    //this could take first node as optional argument
-    // if null then its first, if not then set next in prev to cur
-    struct Node *node = malloc(NODE_TYPE_SIZE + INT_SIZE + 
-                        NODE_POINTER_SIZE + (CHAR_SIZE * size));
-    printf("%s\n", item);
-    node->type = stringNode;
-    strncpy(node->c, item, size);
+    struct Node *node = (*allocateMem)(size);
     node->next = NULL;
     return node;
 }
@@ -73,6 +44,12 @@ void printNodes(struct Node *first)
         if(!node->next) break;
         node = node->next;
     }
+}
+
+struct Node *allocateLinkMem(int size)
+{
+    return malloc(NODE_TYPE_SIZE + INT_SIZE + 
+                    NODE_POINTER_SIZE + size);
 }
 
 // struct Node *searchNode(int id)
