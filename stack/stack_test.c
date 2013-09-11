@@ -4,7 +4,10 @@
 
 int main(int argc, char *argv[])
 {
-    struct Stack *stack = makeStack();
+    printf("How big do you want the stack to be?\n");
+    int stackSize;
+    scanf("%d", &stackSize);
+    struct Stack *stack = makeStack(stackSize);
     char choice;
     int item;
 
@@ -33,7 +36,7 @@ int main(int argc, char *argv[])
                 break;
             case 'c':
                 free(stack);
-                struct Stack *stack = makeStack();
+                struct Stack *stack = makeStack(stackSize);
             default:
                 printf("Wrong option!\n");
         }

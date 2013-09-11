@@ -1,12 +1,13 @@
 #ifndef STACK_H
 #define STACK_H
-#define SIZE 10
 #define NL printf("\n");
 #define PR(n) printf("[%d] ", (n));
 
 struct Stack {
-    int n[SIZE];
     int position;
+    int size;
+    int n[];
+
 };
 
 void push(struct Stack *stack, int n);
