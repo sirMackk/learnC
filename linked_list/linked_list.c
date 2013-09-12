@@ -1,35 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "linked_list.h"
 
-struct Node *createNode(struct Node *(*allocateMem)(), int size)
+//include asserts to test against nulls
+
+struct Node *createNode(int size, enum node_type type)
 {
-    struct Node *node = (*allocateMem)(size);
+    int i = 0;
+    if(type == stringNode) i = CHAR_SIZE;
+    struct Node *node = malloc(NODE_TYPE_SIZE + INT_SIZE + 
+                    NODE_POINTER_SIZE + size + i);
+    if(type == stringNode) node->c[size] = '\0'; //add null byte to end of string
     node->next = NULL;
     return node;
 }
 
-int destroyNode(struct Node *node)
+int destroyNode(struct Node *first, struct Node *node)
 {
-    //this should link prev node to next node and delete current node
-    if(node->type == stringNode) free(node->c);
-    free(node);
-    return 0;
-    // if(free(node)) {
-    //     return 0;
-    // } else {
-    //     return 1;
-    // }
-
+    if(!node) return 0;
+    struct Node *prev;
+    do {
+        
+        if(first->next == node) {
+            prev = first;
+            break;
+        }
+    } while(first = first->next);
+    if(prev) {
+        prev->next = node->next;
+        free(node);
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
-void printNodes(struct Node *first)
+void printNodes(struct Node *node)
 {
-    struct Node *node = first;
-    // while(node->next) { //make loop without break, but this omits
-    // last item in list
-    while(1) {
+    do {
         switch(node->type) {
             case intNode:
                 printf("Value: %d\n", node->u.i);
@@ -41,18 +51,44 @@ void printNodes(struct Node *first)
                 printf("Value: %s\n", node->c);
                 break;
         }
-        if(!node->next) break;
-        node = node->next;
+    } while(node = node->next);
+}
+
+void printNode(struct Node *node)
+{
+    switch(node->type) {
+        case intNode:
+            printf("Value: %d\n", node->u.i);
+            break;
+        case floatNode:
+            printf("Value: %f\n", node->u.f);
+            break;
+        case stringNode:
+            printf("Value: %s\n", node->c);
+            break;
     }
 }
 
-struct Node *allocateLinkMem(int size)
+struct Node *searchIntNode(struct Node *node, int n)
 {
-    return malloc(NODE_TYPE_SIZE + INT_SIZE + 
-                    NODE_POINTER_SIZE + size);
+    do {
+        if(node->u.i == n) return node;
+    } while(node = node->next);
+    return NULL;
 }
 
-// struct Node *searchNode(int id)
-// {
+struct Node *searchFloatNode(struct Node *node, float n)
+{
+    do {
+        if(node->u.f == n) return node;
+    } while(node = node->next);
+    return NULL;
+}
 
-// }
+struct Node *searchStringNode(struct Node *node, char *n)
+{
+    do {
+        if(strcmp(node->c, n) == 0) return node;
+    } while(node = node->next);
+    return NULL;
+}
