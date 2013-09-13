@@ -5,45 +5,46 @@
 
 int main(void)
 {
-    struct Node *first = createNode((CHAR_SIZE * 3), stringNode);
-    first->type = stringNode;
-    strncpy(first->c, "cat", (CHAR_SIZE * 3));
 
-    struct Node *second = createNode((CHAR_SIZE * 3), stringNode);
-    second->type = stringNode;
-    strncpy(second->c, "dog", (CHAR_SIZE * 3));
-    first->next = second;
+    char choice;
+    int item;
+    struct Node *first = createNode(INT_SIZE, intNode);
+    first->type = intNode;
+    struct Node *node;
+    while(1) {
+        puts("i - insert, d - delete, p - printall, x - exit");
+        choice = getchar();
 
-    struct Node *third = createNode(INT_SIZE, intNode);
-    third->type = intNode;
-    third->u.i = 15;
-    second->next = third;
+        switch(choice) {
+            case 'i':
+                puts("Enter integer to insert:");
+                scanf("%d", &item);
+                if(!first->u.i) {
+                    first->u.i = item;
+                } else {
+                    node = createNode(INT_SIZE, intNode);
+                    node->u.i = item; 
+                    insertNode(first, node);
+                }
+                break;
+            case 'd':
+                if(!first) break;
+                puts("Enter integer to delete:");
+                scanf("%d", &item);
+                destroyNode(first, searchIntNode(first, item));
+                //check if node was actually deleted dude
+                puts("Node deleted!");
+                break;
+            case 'p':
+                if(!first) break;
+                printNodes(first);
+                break;
+            case 'x':
+                return 0;
 
-    struct Node *fourth = createNode(FLOAT_SIZE, intNode);
-    fourth->type = floatNode;
-    fourth->u.f = 12.3f;
-    third->next = fourth;
+        }
 
-    struct Node *fifth = createNode((CHAR_SIZE * 4), stringNode);
-    fifth->type = stringNode;
-    strncpy(fifth->c, "boyd", (CHAR_SIZE * 4));
-    fourth->next = fifth;
-
-    printNodes(first);
-    printf("\n");
-    struct Node *found;
-    if(found = searchStringNode(first, "dog")) {
-        printNode(found);
-    } else {
-        printf("node not found!\n");
     }
-
-    destroyNode(first, searchStringNode(first, "dog"));
-    printf("more nodes:\n");
-    printNodes(first);
-    destroyNode(first, searchFloatNode(first, 12.4f));
-    printNodes(first);
-
     return 0;
 }
 

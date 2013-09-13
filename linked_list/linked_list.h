@@ -30,5 +30,6 @@ void printNode(struct Node *node);
 struct Node *searchIntNode(struct Node *node, int n);
 struct Node *searchFloatNode(struct Node *node, float n);
 struct Node *searchStringNode(struct Node *node, char *n);
+struct Node *insertNode(struct Node *first, struct Node *node);
 
 #endif

@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include "linked_list.h"
 
-//include asserts to test against nulls
+//ensure fns that accepts nodes arent getting nulls
 
 struct Node *createNode(int size, enum node_type type)
 {
@@ -15,6 +14,28 @@ struct Node *createNode(int size, enum node_type type)
     if(type == stringNode) node->c[size] = '\0'; //add null byte to end of string
     node->next = NULL;
     return node;
+}
+
+struct Node *insertNode(struct Node *first, struct Node *node)
+{
+    struct Node *prev;
+    do {
+        //so ugly
+        //make case when inserting link smaller than first node
+        if(node->type == intNode) {
+            //in case insertion is at the end of the list
+            if(!first->next && node->u.i > first->u.i) {
+                first->next = node;
+                break;
+            //in case insertion is in the middle of the list  
+            } else if(node->u.i > prev->u.i && node->u.i < first->u.i) {
+                    prev->next = node;
+                    node->next = first;
+                    break;
+            }
+        }
+        prev = first;
+    } while(first = first->next);
 }
 
 int destroyNode(struct Node *first, struct Node *node)
