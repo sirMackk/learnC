@@ -9,9 +9,11 @@ struct Node {
 
 struct Node *createNode(int value);
 struct Node *insertNode(struct Node *root, struct Node *node);
-struct Node *deleteNode(struct Node *node);
-struct Node *searchNode(int value);
-void printNode(struct Node *node);
+struct Node *deleteNode(struct Node *root, int value, struct Node *prev);
+struct Node *searchNode(struct Node *node, int value);
+int printNode(struct Node *node);
 void printNodes(struct Node *root);
+struct Node *findSuccessor(struct Node *node);
+struct Node *findSuccessorParent(struct Node *node);
 
 #endif
