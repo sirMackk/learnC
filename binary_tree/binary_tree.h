@@ -15,5 +15,6 @@ int printNode(struct Node *node);
 void printNodes(struct Node *root);
 struct Node *findSuccessor(struct Node *node);
 struct Node *findSuccessorParent(struct Node *node);
+struct Node *deleteNodeWrapper(struct Node *root, int value, struct Node *prev);
 
 #endif

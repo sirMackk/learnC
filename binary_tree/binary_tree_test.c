@@ -14,16 +14,30 @@ int main(void)
     insertNode(root, createNode(11));
     insertNode(root, createNode(20));
 
-    insertNode(root, createNode(7));
+    //weird error where it will segfault
+    //when root has left child
+    //funny, because it segfaults in #2 or #3
+    //I think I should be using free() between these
+    //tests..
+    // insertNode(root, createNode(7));
 
     printNodes(root);
 
     printNode(searchNode(root, 11));
 
-    deleteNode(root, 5, NULL);
+    root = deleteNodeWrapper(root, 5, NULL);
     printf("\n");
     printNodes(root);
     printf("\n");
+
+
+    //case where we're deleting the root node with 1 child
+    root = createNode(50);
+    insertNode(root, createNode(25));
+    root = deleteNode(root, 50, NULL);
+    printNodes(root);
+    printf("\n");
+
 
     //complicated case of deleted a node with two children
 
@@ -37,9 +51,9 @@ int main(void)
     insertNode(root, createNode(93));
 
     printNodes(root);
-
-    deleteNode(root, 75, NULL);
-    printf("\n");
+    root = deleteNodeWrapper(root, 75, NULL);
+    // printf("%p", root, root->value);
+    // printf("\n");
     printNodes(root);
 
 }

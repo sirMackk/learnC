@@ -63,8 +63,20 @@ struct Node *searchNode(struct Node *root, int value)
 
 }
 
+struct Node *deleteNodeWrapper(struct Node *root, int value, struct Node *prev)
+{
+    //this wrapper was added on to take care of the
+    //delete-the-root-with-one-child case
+    struct Node *tmp = deleteNode(root, value, prev);
+    if(tmp)
+        return tmp;
+    else
+        return root;
+}
+
 struct Node *deleteNode(struct Node *root, int value, struct Node *prev)
 {
+    int delete = 1;
     //traversing
     if(value > root->value) {
         return deleteNode(root->right, value, root);
@@ -72,6 +84,7 @@ struct Node *deleteNode(struct Node *root, int value, struct Node *prev)
         return deleteNode(root->left, value, root);
     } else if(value == root->value) {
         printf("found node to delete! %d\n", root->value);
+
         //deletion
         //root node w/o children or node without children
         if(!root->left && !root->right) {
@@ -83,12 +96,13 @@ struct Node *deleteNode(struct Node *root, int value, struct Node *prev)
                 prev->right = NULL;
             }
         //node has one child
-        //TODO: bug in case where root node is to be deleted
-        //and switched with a child node - doesn't get switched
         } else if(!root->right) {
             //if it's root, replace root with left child
             if(!prev) {
+                free(root);
                 root = root->left;
+                delete = 0;
+
             //but if its smaller than parent, attach left to left parent
             } else if(prev->value > value) {
                 prev->left = root->left;
@@ -98,7 +112,9 @@ struct Node *deleteNode(struct Node *root, int value, struct Node *prev)
             }
         } else if(!root->left) {
             if(!prev) {
+                free(root);
                 root = root->right;
+                delete = 0;
             } else if(prev->value > value) {
                 prev->left = root->right;
             } else {
@@ -136,7 +152,13 @@ struct Node *deleteNode(struct Node *root, int value, struct Node *prev)
             }
         }
         //finally delete the node after all node shifts
-        free(root);
+        if(delete)
+        {
+            free(root);
+            return NULL;
+        } else {
+            return root;
+        }
     } else {
         //not found, return null pointer
         return NULL;
