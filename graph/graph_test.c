@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "graph.h"
 #include "stack.h"
+#include "queue.h"
 
 
 int main(void)
@@ -19,10 +18,6 @@ int main(void)
 
     struct Vertex *vertexList[] = {v1, v2, v3, v4, v5};
 
-    //stack for dfs()
-    struct Stack *stack = makeStack(SIZE);
-
-
     //make edges
     connectVertices(*graph, 0, 1);
     connectVertices(*graph, 0, 3);
@@ -31,8 +26,10 @@ int main(void)
 
     printGraph(*graph, SIZE);
 
+    //gotta pass in dat vertexlist yo
+    dfs(*graph, vertexList);
 
-    dfs(*graph, stack);
+    bfs(*graph, vertexList);
 
 
 

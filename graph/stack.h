@@ -1,21 +1,16 @@
 #ifndef MATTS_STACK
 #define MATTS_STACK
-// #include "graph.h"
-
-// struct Vertex {
-//     int wasVisited;
-//     char data[25];
-// };
 
 struct Stack {
-    int size;
     int position;
-    struct Vertex *vertices[];
+    int size;
+    int stack[];
 };
 
 struct Stack *makeStack(int size);
-void push(struct Stack *stack, struct Vertex *vertex);
-struct Vertex *pop(struct Stack *stack);
-struct Vertex *peek(struct Stack *stack);
+void push(struct Stack *stack, int value);
+int pop(struct Stack *stack);
+int peek(struct Stack *stack);
+int isEmpty(struct Stack *stack);
 
 #endif

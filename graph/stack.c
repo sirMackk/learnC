@@ -1,35 +1,34 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
-#include "graph.h"
 
 struct Stack *makeStack(int size)
-{   
-    //allocate a chunk of memory the size of
-    //n vertices + 2 struct Stack ints
-    struct Vertex *dd;
-
-    // struct Stack *stack = malloc(sizeof(struct Vertex *) * size + sizeof(int) * 2);
-    struct Stack *stack = malloc(sizeof(dd) * SIZE);
-
+{
+    struct Stack *stack = calloc(sizeof(int), size);
     stack->size = size;
     stack->position = 0;
 
     return stack;
 }
 
-void push(struct Stack *stack, struct Vertex *vertex)
+void push(struct Stack *stack, int value)
 {
-    //consider a full stack
-    stack->vertices[stack->position++] = vertex;
+    stack->stack[stack->position++] = value;
 }
 
-struct Vertex *pop(struct Stack *stack)
+int pop(struct Stack *stack)
 {
-    return stack->vertices[--stack->position];
+    return stack->stack[--stack->position];
 }
 
-struct Vertex *peek(struct Stack *stack)
+int peek(struct Stack *stack)
 {
-    return stack->vertices[stack->position - 1];
+    return stack->stack[stack->position - 1];
+}
+
+int isEmpty(struct Stack *stack)
+{
+    if(stack->position == -1)
+        return 1;
+    else
+        return 0;
 }
